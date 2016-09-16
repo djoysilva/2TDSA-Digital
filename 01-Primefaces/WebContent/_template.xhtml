@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title><ui:insert name="title">FIAP | Pokemon</ui:insert></title>
+</h:head>
+
+<h:body>
+
+	<p:menubar>
+		<p:menuitem value="Capturar" outcome="captura"/>
+		<p:submenu label="Pokemon">
+			<p:menuitem value="Cadastrar" outcome="captura"/>
+		</p:submenu>
+	</p:menubar>
+
+	<div id="content">
+		<ui:insert name="content">
+		</ui:insert>
+	</div>
+
+</h:body>
+
+</html>

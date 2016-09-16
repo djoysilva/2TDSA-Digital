@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="_template.xhtml">
+	
+	<ui:define name="content">
+	<br/>
+		<p:messages autoUpdate="true"/>
+		<p:growl autoUpdate="true"/>
+		
+		<p:panel header="Captura Pokemon" toggleable="true">
+			<h:form id="formPokemon">
+				<h:inputHidden value="#{pokemonBean.pokemon.codigo}"/>
+				<h:panelGrid columns="2">
+					<p:outputLabel value="Nome" for="nome" />
+					<p:inputText id="nome" value="#{pokemonBean.pokemon.nome}" />
+	
+					<p:outputLabel value="CP" for="cp" />
+					<p:inputMask mask="9999" id="cp" value="#{pokemonBean.pokemon.cp}" />
+	
+					<p:outputLabel value="Data" for="data" />
+					<p:calendar id="data"
+						value="#{pokemonBean.pokemon.dataCaptura.time}" />
+	
+					<p:outputLabel value="Nível" for="nivel" />
+					<p:rating id="nivel" value="#{pokemonBean.pokemon.nivel}" />
+					
+					<p:commandButton value="Capturar" 
+						update="tabelaPokemon,formPokemon"
+						actionListener="#{pokemonBean.capturar}"/>
+				</h:panelGrid>
+			</h:form>
+		</p:panel>
+		<br/>
+		<p:panel header="Pokedex" toggleable="true">
+			<h:form>
+				<h:panelGrid columns="3">
+					<p:outputLabel value="Nome"/>
+					<p:autoComplete 
+						completeMethod="#{pokemonBean.autocompletar}"
+						value="#{pokemonBean.nomeBusca}"/>
+					<p:commandButton value="Buscar"
+						actionListener="#{pokemonBean.buscar}"
+						update="tabelaPokemon"/>
+				</h:panelGrid>
+			</h:form>
+			<p:dataTable paginatorPosition="bottom" 
+				paginator="true" rows="5" id="tabelaPokemon" value="#{pokemonBean.lista}" var="poke">
+				<p:column headerText="Nome">
+					#{poke.nome}
+				</p:column>
+				<p:column headerText="Data Captura">
+					<h:outputText value="#{poke.dataCaptura.time}">
+						<f:convertDateTime pattern="dd/MM/yyyy"/>
+					</h:outputText>
+				</p:column>
+				<p:column headerText="CP">
+					#{poke.cp}
+				</p:column>
+				<p:column headerText="Nível">
+					<p:rating value="#{poke.nivel}" readonly="true"/>
+				</p:column>
+				<p:column>
+					<p:commandButton icon="ui-icon-pencil" update="formPokemon">
+						<f:setPropertyActionListener 
+							value="#{poke}" target="#{pokemonBean.pokemon}"/>
+					</p:commandButton>
+					<p:commandButton icon="ui-icon-trash" onclick="PF('confirmacao').show()">
+						<f:setPropertyActionListener value="#{poke.codigo}" 
+							target="#{pokemonBean.codigo}"/>
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			<p:confirmDialog widgetVar="confirmacao" header="Aviso" severity="alert"
+				message="Você realmente quer excluir o seu pokemon? Essa ação não poderá ser desfeita.">
+				
+				<p:commandButton value="Sim" icon="ui-icon-check" actionListener="#{pokemonBean.banir}" update="tabelaPokemon" oncomplete="PF('confirmacao').hide()"/>
+				<p:commandButton value="Não" icon="ui-icon-close" onclick="PF('confirmacao').hide()"/>
+				
+			</p:confirmDialog>
+		</p:panel>
+	</ui:define>
+
+</ui:composition>
+</html>
