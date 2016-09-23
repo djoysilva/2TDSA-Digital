@@ -6,6 +6,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -121,7 +122,7 @@ public class SerieRepository {
 				// Transformar o JSON no Serie[]
 				Serie[] array = new Gson().fromJson(builder.toString(), Serie[].class);
 				// Transformar o vetor na Collection List
-				return Arrays.asList(array);
+				return new LinkedList<Serie>(Arrays.asList(array));
 			}
 
 		} catch (Exception e) {
