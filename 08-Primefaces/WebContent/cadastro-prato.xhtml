@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="_template.xhtml">
+	<ui:define name="content">
+		<p:panel>
+			<h1>Cadastro de Prato</h1>
+			<h:form>
+				<p:growl autoUpdate="true"/>
+				<h:panelGrid columns="2">
+					<p:outputLabel value="Nome" for="nome"/>
+					<p:inputText value="#{pratoBean.prato.nome}" id="nome"/>
+					
+					<p:outputLabel value="Valor" for="valor"/>
+					<p:inputText value="#{pratoBean.prato.valor}" id="valor"/>
+					
+					<p:graphicImage 
+						id="fotoPrato"
+						value="#{pratoBean.foto}" 
+						cache="false"
+						width="200"/>
+					<p:fileUpload
+						fileUploadListener="#{pratoBean.subirFoto}"
+						sizeLimit="100000000"
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+						id="foto" 
+						dragDropSupport="true"
+						auto="true"
+						update="fotoPrato"
+						label="Escolha"/>
+						
+					<p:graphicImage
+						id="fotoPrato2"
+						value="#{pratoBean.foto2}"
+						cache="false"
+						width="200"/>
+					<p:fileUpload
+						fileUploadListener="#{pratoBean.subirFoto2}"
+						sizeLimit="100000000"
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+						id="foto2"
+						update="fotoPrato2"
+						dragDropSupport="true"
+						label="Escolha"
+						auto="true"/>	
+
+					<p:commandButton value="Salvar" 
+						actionListener="#{pratoBean.cadastrar}"
+						update="@form"/>
+				</h:panelGrid>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>
